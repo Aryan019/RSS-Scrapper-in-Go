@@ -17,3 +17,5 @@ and go mod vendor to download in packages locally
 
 github.com/go-chi/chi -> Used to include in the router for the server
 go get github.com/go-chi/cors
+
+Boiler plate for http server completed till now 
