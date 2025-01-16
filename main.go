@@ -12,23 +12,22 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello from the go server ")
+	fmt.Println("Hello from the Go server!")
 	godotenv.Load()
 
-	// Reading in the port from the file we have
+	// Reading the port from the environment
 	portString := os.Getenv("PORT")
-
 	if portString == "" {
 		fmt.Println("PORT not found in the environment variables")
 		return
 	}
 
-	fmt.Println("Port -> ", portString)
+	fmt.Println("Port ->", portString)
 
-	// Creating in a new router
+	// Create the main router
 	router := chi.NewRouter()
 
-	// Setting up the router file including cors
+	// Set up CORS middleware
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -38,13 +37,15 @@ func main() {
 		MaxAge:           300,
 	}))
 
+	// Create a versioned router
 	v1Router := chi.NewRouter()
-	v1Router.HandleFunc("/healthz", handlerReadiness)
+	v1Router.Get("/healthz", handlerReadiness)
+	v1Router.Get("/err", handleErr)
 
-	// Mounting in tge router
-	v1Router.Mount("/v1", router)
+	// Mount the versioned router onto the main router
+	router.Mount("/v1", v1Router)
 
-	// Creating in the server
+	// Create the server
 	server := &http.Server{
 		Handler: router,
 		Addr:    ":" + portString,
@@ -52,9 +53,7 @@ func main() {
 
 	log.Print("Server starting on port " + portString)
 	err := server.ListenAndServe()
-
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
