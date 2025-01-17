@@ -19,3 +19,12 @@ github.com/go-chi/chi -> Used to include in the router for the server
 go get github.com/go-chi/cors
 
 Boiler plate for http server completed till now 
+
+go install github.com/kyleconroy/sqlc/cmd/sqlc@latest
+
+Installing in the goose here 
+go install github.com/pressly/goose/v3/cmd/goose@latest
+
+
+anything inside --goose up is a up statement 
+and anything downside --goose down is a down statement 
