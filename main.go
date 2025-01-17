@@ -6,10 +6,16 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/Aryan019/RSS-Scrapper/internal/database"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 )
+
+// the apiConfig here is holding in the connection to the database
+type apiConfig struct {
+	DB *database.Queries
+}
 
 func main() {
 	fmt.Println("Hello from the Go server!")
